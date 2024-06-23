@@ -3,7 +3,12 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
+    <organization>
+        <name>George Wright</name>
+        <url>https://georgewright.site/</url>
+    </organization>
+    <inceptionYear>2024</inceptionYear>
+    <description>Stores user-generated name/value tags to image files.</description>
     <groupId>net.stumpwiz</groupId>
     <artifactId>imagetag</artifactId>
     <version>1.0</version>
@@ -12,14 +17,64 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <version.junit>5.10.2</version.junit>
+        <version.launch4j>2.5.1</version.launch4j>
+        <version.slf4j>2.1.0-alpha1</version.slf4j>
+        <version.sqlite>3.46.0.0</version.sqlite>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>production</id>
+            <properties>
+                <env>PROD</env>
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <env>TEST</env>
+            </properties>
+        </profile>
+    </profiles>
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${version.slf4j}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${version.slf4j}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${version.junit}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${version.junit}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>${version.sqlite}</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>com.akathist.maven.plugins.launch4j</groupId>
                 <artifactId>launch4j-maven-plugin</artifactId>
-                <version>2.5.1</version>
+                <version>${version.launch4j}</version>
                 <executions>
                     <execution>
                         <id>l4j-clui</id>
@@ -31,7 +86,6 @@
                             <headerType>console</headerType>
                             <outfile>target/output.exe</outfile>
                             <jar>target/imagetag-1.0.jar</jar>
-                            <errTitle>example.com</errTitle>
                             <classPath>
                                 <mainClass>net.stumpwiz.Main</mainClass>
                             </classPath>

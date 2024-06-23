@@ -21,13 +21,31 @@
  */
 package net.stumpwiz;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
+import static net.stumpwiz.Functions.errorAlert;
+
 public class Main
 {
+    static Properties configProperties = new Properties();
+    static String TEST_URL;
+    static String WORKING_URL;
+
     public static void main(String[] args)
     {
-        System.out.print("Hello and welcome!");
-        for (int i = 1; i <= 5; i++) {
-            System.out.println("i = " + i);
+        configProperties = new Properties();
+        try (InputStream input = new FileInputStream("../config.properties")) {
+            configProperties.load(input);
+        } catch (IOException ex) {
+            errorAlert(ex.getMessage());
         }
+        System.out.println(configProperties);
+        TEST_URL = configProperties.getProperty("TEST_URL");
+        WORKING_URL = configProperties.getProperty("WORKING_URL");
+        System.out.println(TEST_URL);
+        System.out.println(WORKING_URL);
     }
 }
